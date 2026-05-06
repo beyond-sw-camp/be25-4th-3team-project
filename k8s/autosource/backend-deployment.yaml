@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: autosource-api
-        image: leetrue801/autosource-back:29.0
+        image: leetrue801/autosource-back:30.0
         resources:
           requests:
             memory: "521Mi"
@@ -38,6 +38,12 @@ spec:
             secretKeyRef:
               name: mariadb-secret
               key: MARIADB_PASSWORD
+        - name: APP_CORS_ALLOWED_ORIGIN_PATTERNS
+          value: https://*.ngrok-free.dev,https://*.vercel.app
+        - name: APP_COOKIE_SECURE
+          value: "true"
+        - name: APP_COOKIE_SAME_SITE
+          value: None
         startupProbe:
           httpGet:
             path: /actuator/health/liveness

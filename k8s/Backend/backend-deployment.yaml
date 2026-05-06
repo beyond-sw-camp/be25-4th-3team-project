@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: autosource-api
-        image: leetrue801/autosource-back:29.0
+        image: leetrue801/autosource-back:30.0
         resources:
           requests:
             memory: "521Mi"
@@ -38,6 +38,12 @@ spec:
             secretKeyRef:
               name: mariadb-secret
               key: MARIADB_PASSWORD
+        - name: APP_CORS_ALLOWED_ORIGIN_PATTERNS
+          value: https://*.ngrok-free.dev,https://*.vercel.app
+        - name: APP_COOKIE_SECURE
+          value: "true"
+        - name: APP_COOKIE_SAME_SITE
+          value: None
         # 컨테이너 안의 애플리케이션이 시작되었는지 확인한다.
         startupProbe: 
           httpGet:

@@ -26,6 +26,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -41,6 +42,9 @@ public class SecurityConfig {
 
     @Value("${app.frontend-url:http://localhost:5173}")
     private String frontendUrl;
+
+    @Value("${app.cors.allowed-origin-patterns:https://*.ngrok-free.dev,https://*.vercel.app}")
+    private String corsAllowedOriginPatterns;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -93,13 +97,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allow requests from the API gateway and local frontend.
-        configuration.setAllowedOrigins(Arrays.asList(
+        List<String> allowedOriginPatterns = new java.util.ArrayList<>(Arrays.asList(
                 gatewayUrl,
                 frontendUrl,
                 "http://localhost:5173",
                 "http://127.0.0.1:5173"
         ));
+        allowedOriginPatterns.addAll(Arrays.stream(corsAllowedOriginPatterns.split(","))
+                .map(String::trim)
+                .filter(pattern -> !pattern.isEmpty())
+                .toList());
+        configuration.setAllowedOriginPatterns(allowedOriginPatterns);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

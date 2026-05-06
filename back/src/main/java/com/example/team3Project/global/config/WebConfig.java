@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -25,6 +26,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${app.frontend-url:http://localhost:5173}")
     private String frontendUrl;
 
+    @Value("${app.cors.allowed-origin-patterns:https://*.ngrok-free.dev,https://*.vercel.app}")
+    private String corsAllowedOriginPatterns;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtCheckInterceptor)
@@ -39,9 +43,19 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // API Gateway 기반 구조 - 외부 클라이언트는 반드시 Gateway를 통해 접근
+        List<String> allowedOriginPatterns = new java.util.ArrayList<>(Arrays.asList(
+                gatewayUrl,
+                frontendUrl,
+                "http://localhost:5173",
+                "http://127.0.0.1:5173"
+        ));
+        allowedOriginPatterns.addAll(Arrays.stream(corsAllowedOriginPatterns.split(","))
+                .map(String::trim)
+                .filter(pattern -> !pattern.isEmpty())
+                .toList());
+
         registry.addMapping("/**")
-                .allowedOrigins(gatewayUrl, frontendUrl, "http://localhost:5173", "http://127.0.0.1:5173")
+                .allowedOriginPatterns(allowedOriginPatterns.toArray(String[]::new))
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)
