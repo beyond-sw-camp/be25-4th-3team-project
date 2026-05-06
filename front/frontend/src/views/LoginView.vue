@@ -47,7 +47,9 @@ const handleLogin = async () => {
     const response = await axios.post(loginUrl, params, {
       withCredentials: true,
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest',
       },
     })
     const meResponse = await api.get('/users/me')
