@@ -9,8 +9,8 @@ pipeline {
 
     environment {
         // Docker 이미지 이름과 K8s 매니페스트 위치를 공통 변수로 관리한다.
-        BACK_IMAGE = 'jin/autosource-back'
-        FRONT_IMAGE = 'jin/autosource-vue'
+        BACK_IMAGE = 'leetrue801/autosource-back'
+        FRONT_IMAGE = 'leetrue801/autosource-vue'
         K8S_DIR = 'k8s'
         K8S_NAMESPACE = 'default'
     }
