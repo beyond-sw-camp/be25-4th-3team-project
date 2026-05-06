@@ -18,7 +18,7 @@ const successMessage = ref('')
 const usernameCheckMessage = ref('')
 const usernameCheckStatus = ref('') // 'available', 'duplicate', ''
 
-const oauthBaseUrl = (api.defaults.baseURL || '').replace(/\/$/, '')
+const oauthBaseUrl = (import.meta.env.VITE_OAUTH_BASE_URL || '').trim().replace(/\/$/, '')
 
 const handleSignup = async () => {
   errorMessage.value = ''

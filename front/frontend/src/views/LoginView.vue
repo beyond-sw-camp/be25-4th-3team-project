@@ -15,7 +15,7 @@ const passwordError = ref('')
 const generalError = ref('')
 const successMessage = ref('')
 
-const oauthBaseUrl = (api.defaults.baseURL || '').replace(/\/$/, '')
+const oauthBaseUrl = (import.meta.env.VITE_OAUTH_BASE_URL || '').trim().replace(/\/$/, '')
 const loginUrl = (() => {
   const raw = (import.meta.env.VITE_AUTH_BASE_URL || '').trim().replace(/\/$/, '')
   if (!raw) return '/users/login'
