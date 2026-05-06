@@ -1,0 +1,113 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: autosource-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /users
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /oauth2
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /logout
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /policies
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /products
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /revenue
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /orders
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /shipping
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /cards
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /settlements
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /sourcing
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /upload
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /product
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-api-service
+                port:
+                  number: 8087
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: autosource-vue-service
+                port:
+                  number: 80

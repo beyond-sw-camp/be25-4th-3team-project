@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autosource-api-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autosource-api
+  template:
+    metadata:
+      labels:
+        app: autosource-api
+    spec:
+      containers:
+      - name: autosource-api
+        image: leetrue801/autosource-back:28.0
+        resources:
+          requests:
+            memory: "521Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        ports:
+        - containerPort: 8087
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: dev
+        - name: SERVER_PORT
+          value: "8087"
+        - name: DB_URL
+          value: jdbc:mariadb://autosource-mariadb-service:3306/team3
+        - name: DB_USERNAME
+          value: team3
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MARIADB_PASSWORD
+        startupProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8087
+          failureThreshold: 30
+          timeoutSeconds: 3
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8087
+          initialDelaySeconds: 10
+          periodSeconds: 20
+          timeoutSeconds: 3
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8087
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 6
