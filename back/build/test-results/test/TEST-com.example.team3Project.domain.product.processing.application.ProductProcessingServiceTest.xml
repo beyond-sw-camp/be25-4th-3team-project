@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.481Z" hostname="leetrue801ui-MacBookAir.local" time="0.074">
+  <properties/>
+  <testcase name="자동 발행 정책이 켜져 있으면 쿠팡 등록 후보 저장 직후 자동 발행한다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.066"/>
+  <testcase name="금지어가 포함되면 차단 상태로 저장하고 응답에서는 가격 정보를 비운다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.002"/>
+  <testcase name="수수료율 합계가 100퍼센트 이상이면 예외가 발생하고 저장은 수행하지 않는다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.001"/>
+  <testcase name="variation 정보가 있으면 등록 저장 단계로 함께 전달한다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.001"/>
+  <testcase name="치환어가 있으면 기존 상품명 가공 흐름에서 치환어가 적용된다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.0"/>
+  <testcase name="금지어가 포함된 상품명은 기존 상품명 가공 흐름에서 제외된다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.001"/>
+  <testcase name="금지어도 치환어도 없으면 기존 상품명 가공 흐름은 원본을 그대로 반환한다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.0"/>
+  <testcase name="자동 발행 정책이 꺼져 있으면 등록 후보만 저장하고 자동 발행하지 않는다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.001"/>
+  <testcase name="최소 마진 보호가 꺼져 있으면 목표 마진율 기준으로 판매가를 계산하고 저장한다" classname="com.example.team3Project.domain.product.processing.application.ProductProcessingServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

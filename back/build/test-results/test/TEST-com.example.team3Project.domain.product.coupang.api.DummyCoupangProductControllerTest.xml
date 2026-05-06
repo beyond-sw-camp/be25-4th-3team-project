@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.domain.product.coupang.api.DummyCoupangProductControllerTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.221Z" hostname="leetrue801ui-MacBookAir.local" time="0.093">
+  <properties/>
+  <testcase name="등록 후보 1건을 쿠팡 더미 상품으로 발행한다" classname="com.example.team3Project.domain.product.coupang.api.DummyCoupangProductControllerTest" time="0.037"/>
+  <testcase name="쿠팡 더미 상품 상세 조회 API는 현재 로그인 사용자의 상품만 반환한다" classname="com.example.team3Project.domain.product.coupang.api.DummyCoupangProductControllerTest" time="0.009"/>
+  <testcase name="로그인 사용자가 없으면 쿠팡 더미 상품 API는 401을 반환한다" classname="com.example.team3Project.domain.product.coupang.api.DummyCoupangProductControllerTest" time="0.015"/>
+  <testcase name="쿠팡 상품 목록 API는 프론트 테이블용 DTO를 반환한다" classname="com.example.team3Project.domain.product.coupang.api.DummyCoupangProductControllerTest" time="0.011"/>
+  <testcase name="쿠팡 상품 검색 API는 검색 조건을 서비스로 전달하고 DTO를 반환한다" classname="com.example.team3Project.domain.product.coupang.api.DummyCoupangProductControllerTest" time="0.01"/>
+  <testcase name="등록 후보 여러 건을 쿠팡 더미 상품으로 발행한다" classname="com.example.team3Project.domain.product.coupang.api.DummyCoupangProductControllerTest" time="0.009"/>
+  <system-out><![CDATA[2026-05-03T17:59:52.253+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.253+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.254+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.266+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.266+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.266+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.273+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.274+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.274+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.279+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.279+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.279+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.289+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.289+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.290+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.301+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.301+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.301+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.311+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.311+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.311+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

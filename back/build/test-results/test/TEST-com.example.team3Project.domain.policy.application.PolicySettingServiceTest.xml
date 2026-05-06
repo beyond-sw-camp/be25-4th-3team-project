@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.domain.policy.application.PolicySettingServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.158Z" hostname="leetrue801ui-MacBookAir.local" time="0.063">
+  <properties/>
+  <testcase name="정책 설정이 있으면 기존 설정 값을 수정한다" classname="com.example.team3Project.domain.policy.application.PolicySettingServiceTest" time="0.062"/>
+  <testcase name="정책 설정이 없으면 PUT 요청 기준으로 새 설정을 생성한다" classname="com.example.team3Project.domain.policy.application.PolicySettingServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

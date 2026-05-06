@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.global.interceptor.LoginCheckInterceptorTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.721Z" hostname="leetrue801ui-MacBookAir.local" time="0.001">
+  <properties/>
+  <testcase name="인증 헤더가 있으면 요청을 통과한다" classname="com.example.team3Project.global.interceptor.LoginCheckInterceptorTest" time="0.0"/>
+  <testcase name="프리플라이트 OPTIONS 요청은 통과한다" classname="com.example.team3Project.global.interceptor.LoginCheckInterceptorTest" time="0.001"/>
+  <testcase name="인증 헤더가 없으면 401을 반환한다" classname="com.example.team3Project.global.interceptor.LoginCheckInterceptorTest" time="0.0"/>
+  <system-out><![CDATA[2026-05-03T17:59:52.722+09:00  INFO 29406 --- [    Test worker] c.e.t.g.i.LoginCheckInterceptor          : login check interceptor /products/coupang
+2026-05-03T17:59:52.722+09:00  INFO 29406 --- [    Test worker] c.e.t.g.i.LoginCheckInterceptor          : login check interceptor /products/coupang
+2026-05-03T17:59:52.722+09:00  INFO 29406 --- [    Test worker] c.e.t.g.i.LoginCheckInterceptor          : login check interceptor /products/registrations
+2026-05-03T17:59:52.723+09:00  INFO 29406 --- [    Test worker] c.e.t.g.i.LoginCheckInterceptor          : missing X-User-Id header
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

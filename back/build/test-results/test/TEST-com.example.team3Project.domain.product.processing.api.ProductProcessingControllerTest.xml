@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.domain.product.processing.api.ProductProcessingControllerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.403Z" hostname="leetrue801ui-MacBookAir.local" time="0.078">
+  <properties/>
+  <testcase name="소싱 ingest API는 헤더의 사용자 식별값과 payload를 사용해 쿠팡 기준 가공 서비스를 호출한다" classname="com.example.team3Project.domain.product.processing.api.ProductProcessingControllerTest" time="0.071"/>
+  <testcase name="소싱 ingest API는 X-User-Id 헤더가 없으면 요청을 거절한다" classname="com.example.team3Project.domain.product.processing.api.ProductProcessingControllerTest" time="0.007"/>
+  <system-out><![CDATA[2026-05-03T17:59:52.450+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.450+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.450+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.479+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.479+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.480+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.481+09:00  WARN 29406 --- [    Test worker] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingRequestHeaderException: Required request header 'X-User-Id' for method parameter type Long is not present]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

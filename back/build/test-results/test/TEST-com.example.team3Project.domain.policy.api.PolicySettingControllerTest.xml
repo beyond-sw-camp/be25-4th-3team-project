@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.domain.policy.api.PolicySettingControllerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.029Z" hostname="leetrue801ui-MacBookAir.local" time="0.066">
+  <properties/>
+  <testcase name="정책 설정 조회 API는 로그인 사용자 기준으로 조회한다" classname="com.example.team3Project.domain.policy.api.PolicySettingControllerTest" time="0.031"/>
+  <testcase name="정책 설정 저장 API는 로그인 사용자 기준으로 저장한다" classname="com.example.team3Project.domain.policy.api.PolicySettingControllerTest" time="0.018"/>
+  <testcase name="정책 설정 API는 로그인 사용자가 없으면 401을 반환한다" classname="com.example.team3Project.domain.policy.api.PolicySettingControllerTest" time="0.014"/>
+  <system-out><![CDATA[2026-05-03T17:59:52.055+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.055+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.055+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.066+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.067+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.067+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.085+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.085+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.086+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.089+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.089+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.089+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

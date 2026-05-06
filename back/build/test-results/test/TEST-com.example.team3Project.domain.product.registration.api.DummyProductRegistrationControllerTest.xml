@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.556Z" hostname="leetrue801ui-MacBookAir.local" time="0.132">
+  <properties/>
+  <testcase name="등록 다건 삭제 API는 로그인 사용자가 없으면 401을 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.015"/>
+  <testcase name="REGISTERED 상품 검색 API는 기간, 소싱처, 마진율, 키워드 조건을 서비스로 전달한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.011"/>
+  <testcase name="등록 목록 조회 API는 로그인 사용자와 마켓 코드에 맞는 목록을 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.01"/>
+  <testcase name="READY 상품 검색 API는 기간, 소싱처, 마진율, 키워드 조건을 서비스로 전달한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.01"/>
+  <testcase name="등록 단건 조회 API는 로그인 사용자 소유 상품만 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.01"/>
+  <testcase name="등록 목록 조회 API는 로그인 사용자가 없으면 401을 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.014"/>
+  <testcase name="등록 상태별 개수 조회 API는 로그인 사용자가 없으면 401을 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.013"/>
+  <testcase name="등록 삭제 API는 로그인 사용자가 없으면 401을 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.012"/>
+  <testcase name="등록 상태별 개수 조회 API는 현재 로그인 사용자 기준 개수를 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.007"/>
+  <testcase name="등록 단건 조회 API는 로그인 사용자가 없으면 401을 반환한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.014"/>
+  <testcase name="등록 삭제 API는 로그인 사용자 소유 상품만 삭제한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.007"/>
+  <testcase name="등록 다건 삭제 API는 선택한 상품 목록을 한 번에 삭제한다" classname="com.example.team3Project.domain.product.registration.api.DummyProductRegistrationControllerTest" time="0.009"/>
+  <system-out><![CDATA[2026-05-03T17:59:52.564+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.565+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.565+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.570+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.570+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.570+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.578+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.579+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.579+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.589+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.589+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.589+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.599+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.600+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.600+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.609+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.609+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.609+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.619+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.619+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.619+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.625+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.625+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.625+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.633+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.633+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.633+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.638+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.638+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.638+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.645+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.645+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.645+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.651+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.651+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.651+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.657+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.657+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.657+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.666+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.666+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.666+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.671+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.671+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.671+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.679+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.679+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.679+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-03T17:59:52.686+09:00  INFO 29406 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-05-03T17:59:52.686+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-03T17:59:52.686+09:00  INFO 29406 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

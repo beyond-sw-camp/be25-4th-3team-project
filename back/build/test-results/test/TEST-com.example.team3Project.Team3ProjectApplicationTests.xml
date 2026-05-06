@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.Team3ProjectApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:47.927Z" hostname="leetrue801ui-MacBookAir.local" time="3.843">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.example.team3Project.Team3ProjectApplicationTests" time="0.247"/>
+  <system-out><![CDATA[17:59:47.985 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.team3Project.Team3ProjectApplicationTests]: Team3ProjectApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:59:48.037 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.team3Project.Team3ProjectApplication for test class com.example.team3Project.Team3ProjectApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.3)
+
+2026-05-03T17:59:48.181+09:00  INFO 29406 --- [    Test worker] c.e.t.Team3ProjectApplicationTests       : Starting Team3ProjectApplicationTests using Java 17.0.19 with PID 29406 (started by leetrue801 in /Users/leetrue801/프로젝트/AutoSource/back/team3Monolith)
+2026-05-03T17:59:48.181+09:00  INFO 29406 --- [    Test worker] c.e.t.Team3ProjectApplicationTests       : No active profile set, falling back to 1 default profile: "default"
+2026-05-03T17:59:48.555+09:00  INFO 29406 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-03T17:59:48.602+09:00  INFO 29406 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43 ms. Found 13 JPA repository interfaces.
+2026-05-03T17:59:48.842+09:00  INFO 29406 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-03T17:59:48.867+09:00  INFO 29406 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2026-05-03T17:59:48.880+09:00  INFO 29406 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-03T17:59:48.993+09:00  INFO 29406 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-03T17:59:49.005+09:00  INFO 29406 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-03T17:59:49.083+09:00  INFO 29406 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-05-03T17:59:49.084+09:00  INFO 29406 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-03T17:59:49.094+09:00  WARN 29406 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-03T17:59:49.104+09:00  INFO 29406 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-03T17:59:49.690+09:00  INFO 29406 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-03T17:59:49.725+09:00  INFO 29406 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-03T17:59:49.865+09:00  INFO 29406 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-03T17:59:51.243+09:00  WARN 29406 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-03T17:59:51.253+09:00  INFO 29406 --- [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-03T17:59:51.510+09:00  INFO 29406 --- [    Test worker] c.e.t.s.fastapi.FastApiServerLifecycle   : FastAPI server already available at localhost:8000
+2026-05-03T17:59:51.518+09:00  INFO 29406 --- [    Test worker] c.e.t.Team3ProjectApplicationTests       : Started Team3ProjectApplicationTests in 3.43 seconds (process running for 3.889)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

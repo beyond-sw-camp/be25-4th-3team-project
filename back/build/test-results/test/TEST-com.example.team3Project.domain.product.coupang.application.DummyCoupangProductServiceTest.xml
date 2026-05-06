@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-05-03T08:59:52.315Z" hostname="leetrue801ui-MacBookAir.local" time="0.088">
+  <properties/>
+  <testcase name="쿠팡 더미 상품 상세 조회는 현재 로그인 사용자의 상품만 반환한다" classname="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" time="0.082"/>
+  <testcase name="자동 발행 경로는 등록 후보를 쿠팡 더미 상품으로 발행한다" classname="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" time="0.001"/>
+  <testcase name="쿠팡 상품 목록은 registrationId와 판매 중 상태를 포함한 DTO로 반환한다" classname="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" time="0.001"/>
+  <testcase name="차단된 등록 후보는 쿠팡 더미 상품으로 발행할 수 없다" classname="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" time="0.001"/>
+  <testcase name="쿠팡이 아닌 마켓 등록 후보는 쿠팡 더미 상품으로 발행할 수 없다" classname="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" time="0.001"/>
+  <testcase name="수동 발행은 자동 등록 정책을 확인하지 않고 쿠팡 더미 상품을 발행한다" classname="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" time="0.001"/>
+  <testcase name="선택된 등록 후보 여러 건을 수동 발행한다" classname="com.example.team3Project.domain.product.coupang.application.DummyCoupangProductServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
