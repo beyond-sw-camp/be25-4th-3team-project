@@ -256,27 +256,29 @@ pipeline {
     agent {
         kubernetes {
             yaml '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: docker
-    image: docker:28.5.1-cli-alpine3.22
-    command: ["cat"]
-    tty: true
-    volumeMounts:
-    - name: docker-socket
-      mountPath: /var/run/docker.sock
-  - name: git
-    image: alpine/git:latest
-    command: ["cat"]
-    tty: true
-  volumes:
-  - name: docker-socket
-    hostPath:
-      path: /var/run/docker.sock
-      type: Socket
-'''
+                apiVersion: v1
+                kind: Pod
+                spec:
+                containers:
+                # Jenkins에서 Docker 명령어를 실행하기 위한 컨테이너
+                - name: docker
+                    image: docker:28.5.1-cli-alpine3.22
+                    command: ["cat"]
+                    tty: true
+                    volumeMounts:
+                    - name: docker-socket
+                    mountPath: /var/run/docker.sock
+                # Jenkins에서 Git 명령어를 실행하기 위한 컨테이너
+                - name: git
+                    image: alpine/git:latest
+                    command: ["cat"]
+                    tty: true
+                volumes:
+                - name: docker-socket
+                    hostPath:
+                    path: /var/run/docker.sock
+                    type: Socket
+                '''
         }
     }
 
@@ -316,12 +318,14 @@ spec:
                     ).trim()
 
                     def changedFiles = changedFilesText ? changedFilesText.readLines() : []
+                    // 변경된 파일 목록에서 back/ 또는 front/ 디렉토리의 변경 여부를 판단하여 환경 변수로 설정
                     env.BUILD_BACK = changedFiles.any { it.startsWith('back/') } ? 'true' : 'false'
                     env.BUILD_FRONT = changedFiles.any { it.startsWith('front/') } ? 'true' : 'false'
 
                     echo "BUILD_BACK: ${env.BUILD_BACK}"
                     echo "BUILD_FRONT: ${env.BUILD_FRONT}"
 
+                    // 변경된 파일이 없거나 back/와 front/ 디렉토리 모두 변경되지 않은 경우, 빌드 및 GitOps 업데이트를 건너뛴다.
                     if (env.BUILD_BACK == 'false' && env.BUILD_FRONT == 'false') {
                         echo 'No back/front changes detected. Skipping image build and GitOps update.'
                     }
@@ -329,6 +333,66 @@ spec:
             }
         }
 
+        // 백엔드와 프론트엔드가 서로 독립적인 이미지 태그 번호를 사용하도록 현재 매니페스트의 태그에서 각각 1씩 증가시킨다.
+        stage('Resolve Image Tags') {
+            when {
+                expression {
+                    return env.BUILD_BACK == 'true' || env.BUILD_FRONT == 'true'
+                }
+            }
+            steps {
+                script {
+                    if (env.BUILD_BACK == 'true') {
+                        def backManifestPath = "${env.K8S_APP_DIR}/backend-deployment.yaml"
+                        def backImageLine = readFile(backManifestPath)
+                            .readLines()
+                            .find { line -> line.trim().startsWith("image: ${env.BACK_IMAGE}:") }
+
+                        if (!backImageLine) {
+                            error "Cannot find image line for ${env.BACK_IMAGE} in ${backManifestPath}"
+                        }
+
+                        def currentBackTag = backImageLine.trim().tokenize(':')[-1].trim()
+                        if (!(currentBackTag ==~ /\d+/)) {
+                            error "Image tag for ${env.BACK_IMAGE} must be numeric, but was '${currentBackTag}' in ${backManifestPath}"
+                        }
+
+                        env.BACK_IMAGE_TAG = "${currentBackTag.toInteger() + 1}"
+                    }
+
+                    if (env.BUILD_FRONT == 'true') {
+                        def frontManifestPath = "${env.K8S_APP_DIR}/frontend-deployment.yaml"
+                        def frontImageLine = readFile(frontManifestPath)
+                            .readLines()
+                            .find { line -> line.trim().startsWith("image: ${env.FRONT_IMAGE}:") }
+
+                        if (!frontImageLine) {
+                            error "Cannot find image line for ${env.FRONT_IMAGE} in ${frontManifestPath}"
+                        }
+
+                        def currentFrontTag = frontImageLine.trim().tokenize(':')[-1].trim()
+                        if (!(currentFrontTag ==~ /\d+/)) {
+                            error "Image tag for ${env.FRONT_IMAGE} must be numeric, but was '${currentFrontTag}' in ${frontManifestPath}"
+                        }
+
+                        env.FRONT_IMAGE_TAG = "${currentFrontTag.toInteger() + 1}"
+                    }
+
+                    if (env.BUILD_BACK == 'true' && !env.BACK_IMAGE_TAG?.trim()) {
+                        error 'BACK_IMAGE_TAG is empty.'
+                    }
+
+                    if (env.BUILD_FRONT == 'true' && !env.FRONT_IMAGE_TAG?.trim()) {
+                        error 'FRONT_IMAGE_TAG is empty.'
+                    }
+
+                    echo "BACK_IMAGE_TAG: ${env.BACK_IMAGE_TAG ?: 'unchanged'}"
+                    echo "FRONT_IMAGE_TAG: ${env.FRONT_IMAGE_TAG ?: 'unchanged'}"
+                }
+            }
+        }
+
+        // 변경된 파일이 back/ 또는 front/ 디렉토리에 있는 경우에만 이미지 빌드 및 GitOps 업데이트를 수행한다.
         stage('Build & Push Images') {
             when {
                 expression {
@@ -348,20 +412,22 @@ spec:
                     }
 
                     script {
+                        // 변경된 파일이 back/ 디렉토리에 있는 경우 백엔드 이미지를 빌드하고 푸시한다.
                         if (env.BUILD_BACK == 'true') {
                             sh """
-                                docker build --no-cache -t ${BACK_IMAGE}:${BUILD_NUMBER} ./back
-                                docker push ${BACK_IMAGE}:${BUILD_NUMBER}
+                                docker build --no-cache -t ${env.BACK_IMAGE}:${env.BACK_IMAGE_TAG} ./back
+                                docker push ${env.BACK_IMAGE}:${env.BACK_IMAGE_TAG}
                             """
                         }
 
                         if (env.BUILD_FRONT == 'true') {
+                            // 변경된 파일이 front/ 디렉토리에 있는 경우 프론트엔드 이미지를 빌드하고 푸시한다.
                             sh """
                                 docker build --no-cache \
                                   --build-arg VITE_API_BASE_URL=/api \
                                   --build-arg VITE_OAUTH_BASE_URL= \
-                                  -t ${FRONT_IMAGE}:${BUILD_NUMBER} ./front
-                                docker push ${FRONT_IMAGE}:${BUILD_NUMBER}
+                                  -t ${env.FRONT_IMAGE}:${env.FRONT_IMAGE_TAG} ./front
+                                docker push ${env.FRONT_IMAGE}:${env.FRONT_IMAGE_TAG}
                             """
                         }
                     }
@@ -371,6 +437,8 @@ spec:
             }
         }
 
+
+        // 변경된 파일이 back/ 또는 front/ 디렉토리에 있는 경우에만 ArgoCD 매니페스트를 업데이트한다.
         stage('Update ArgoCD Manifests') {
             when {
                 expression {
@@ -380,18 +448,23 @@ spec:
             steps {
                 container('git') {
                     script {
+                        // 변경된 파일이 back/ 디렉토리에 있는 경우 백엔드 매니페스트의 이미지 태그를 업데이트한다.
+                        // 대상 파일 : k8s/autosource/backend-deployment.yaml
                         if (env.BUILD_BACK == 'true') {
                             sh """
-                                sed -i 's|image: ${BACK_IMAGE}:.*|image: ${BACK_IMAGE}:${BUILD_NUMBER}|' ${K8S_APP_DIR}/backend-deployment.yaml
+                                sed -i 's|image: ${env.BACK_IMAGE}:.*|image: ${env.BACK_IMAGE}:${env.BACK_IMAGE_TAG}|' ${env.K8S_APP_DIR}/backend-deployment.yaml
                             """
                         }
 
+                        // 변경된 파일이 front/ 디렉토리에 있는 경우 프론트엔드 매니페스트의 이미지 태그를 업데이트한다.
+                        // 대상 파일 : k8s/autosource/frontend-deployment.yaml
                         if (env.BUILD_FRONT == 'true') {
                             sh """
-                                sed -i 's|image: ${FRONT_IMAGE}:.*|image: ${FRONT_IMAGE}:${BUILD_NUMBER}|' ${K8S_APP_DIR}/frontend-deployment.yaml
+                                sed -i 's|image: ${env.FRONT_IMAGE}:.*|image: ${env.FRONT_IMAGE}:${env.FRONT_IMAGE_TAG}|' ${env.K8S_APP_DIR}/frontend-deployment.yaml
                             """
                         }
                     }
+
 
                     sh """
                         git config --global --add safe.directory "${WORKSPACE}"
@@ -403,6 +476,9 @@ spec:
             }
         }
 
+
+        // 변경된 파일이 back/ 또는 front/ 디렉토리에 있는 경우에만 매니페스트 변경 사항을 커밋하고 GitHub 저장소로 푸시한다.
+        // 이 커밋이 github 저장소의 main 브랜치에 푸시되면 ArgoCD가 자동으로 변경 사항을 감지하여 Kubernetes 클러스터에 배포한다.
         stage('Commit & Push Manifests') {
             when {
                 expression {
@@ -415,12 +491,23 @@ spec:
                         credentialsId: 'github-autosource-app',
                         keyFileVariable: 'GIT_SSH_KEY'
                     )]) {
-                        sh """
-                            git add ${K8S_APP_DIR}/backend-deployment.yaml ${K8S_APP_DIR}/frontend-deployment.yaml
-                            git commit -m "chore: 이미지 태그 ${BUILD_NUMBER} 업데이트" || exit 0
-                            git remote set-url origin ${GIT_PUSH_URL}
+                        script {
+                            def updatedTargets = []
+                            if (env.BUILD_BACK == 'true') {
+                                updatedTargets.add("backend:${env.BACK_IMAGE_TAG}")
+                            }
+                            if (env.BUILD_FRONT == 'true') {
+                                updatedTargets.add("frontend:${env.FRONT_IMAGE_TAG}")
+                            }
+                            env.IMAGE_TAG_UPDATE_MESSAGE = updatedTargets.join(', ')
+                        }
+
+                        sh '''
+                            git add "${K8S_APP_DIR}/backend-deployment.yaml" "${K8S_APP_DIR}/frontend-deployment.yaml"
+                            git commit -m "chore: 이미지 태그 ${IMAGE_TAG_UPDATE_MESSAGE} 업데이트" || exit 0
+                            git remote set-url origin "${GIT_PUSH_URL}"
                             GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git push origin HEAD:main
-                        """
+                        '''
                     }
                 }
             }
