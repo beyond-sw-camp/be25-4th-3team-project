@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     options {
-        // 각 빌드는 중복 실행되지 않도록 하고, 로그에 시간 정보를 남긴다.
-        timestamps()
+        // 각 빌드는 중복 실행되지 않도록 한다.
         disableConcurrentBuilds()
     }
 
