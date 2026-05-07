@@ -51,12 +51,7 @@ const imgSend = 'https://www.figma.com/api/mcp/asset/41d128b1-2af3-42da-82e6-c7d
       >
         서비스 소개
       </a>
-      <a
-        href="#"
-        class="text-xl font-bold text-[#010101] no-underline hover:opacity-80 sm:text-2xl lg:text-[30px]"
-      >
-        v.0.0.0
-      </a>
+      
       <RouterLink
         to="/login"
         class="inline-flex h-[52px] min-w-[163px] items-center justify-center rounded-[10px] border border-[#d9d9d9] bg-white px-6 text-xl font-bold text-[#797979] no-underline transition hover:bg-neutral-50 sm:text-2xl lg:text-[30px]"
