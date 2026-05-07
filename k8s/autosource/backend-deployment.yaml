@@ -39,11 +39,11 @@ spec:
               name: mariadb-secret
               key: MARIADB_PASSWORD
         - name: APP_CORS_ALLOWED_ORIGIN_PATTERNS
-          value: https://*.ngrok-free.dev,https://*.vercel.app
+          value: http://localhost:18080,http://127.0.0.1:18080,http://localhost:18081,http://127.0.0.1:18081,https://*.ngrok-free.dev,https://*.vercel.app
         - name: APP_COOKIE_SECURE
-          value: "true"
+          value: "false"
         - name: APP_COOKIE_SAME_SITE
-          value: None
+          value: Lax
         startupProbe:
           httpGet:
             path: /actuator/health/liveness
