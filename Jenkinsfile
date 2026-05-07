@@ -81,6 +81,31 @@ spec:
             }
         }
 
+        // Jenkins가 매니페스트 태그를 계산하기 전에 원격 main의 최신 상태를 먼저 반영한다.
+        // 이렇게 해야 다른 빌드가 먼저 올린 이미지 태그 커밋을 기준으로 다음 태그를 계산할 수 있다.
+        stage('Sync Latest Main') {
+            when {
+                expression {
+                    return env.BUILD_BACK == 'true' || env.BUILD_FRONT == 'true'
+                }
+            }
+            steps {
+                container('git') {
+                    withCredentials([sshUserPrivateKey(
+                        credentialsId: 'github-autosource-app',
+                        keyFileVariable: 'GIT_SSH_KEY'
+                    )]) {
+                        sh """
+                            git config --global --add safe.directory "${WORKSPACE}"
+                            git remote set-url origin ${GIT_PUSH_URL}
+                            GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git fetch origin main
+                            git rebase FETCH_HEAD
+                        """
+                    }
+                }
+            }
+        }
+
         // 백엔드와 프론트엔드가 서로 독립적인 이미지 태그 번호를 사용하도록 현재 매니페스트의 태그에서 각각 1씩 증가시킨다.
         stage('Resolve Image Tags') {
             when {
@@ -226,6 +251,8 @@ spec:
                             git add ${K8S_APP_DIR}/backend-deployment.yaml ${K8S_APP_DIR}/frontend-deployment.yaml
                             git commit -m "chore: 이미지 태그 ${IMAGE_TAG_UPDATE_MESSAGE} 업데이트" || exit 0
                             git remote set-url origin ${GIT_PUSH_URL}
+                            GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git fetch origin main
+                            git rebase FETCH_HEAD
                             GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git push origin HEAD:main
                         """
                     }
