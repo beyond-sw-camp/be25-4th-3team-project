@@ -249,7 +249,7 @@ graph TD
 
 ## 10.CI/CD
 <details>
-<summary>Jenkins Pipline</summary>
+<summary>Jenkins Pipeline</summary>
   
 ````
 pipeline {
