@@ -1,4 +1,4 @@
-# be25-2nd-avg(height)=174-project
+<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 20 15" src="https://github.com/user-attachments/assets/c8ab802e-5afb-45a6-8357-8099ce0fb403" /><img width="2930" height="2022" alt="image" src="https://github.com/user-attachments/assets/17ba25b1-7b70-45f9-bc6c-d1084a259e0b" /># be25-2nd-avg(height)=174-project
 
 # 구매대행 업무 자동화 시스템
 <img width="1435" height="690" alt="스크린샷 2026-04-16 시간: 16 07 39" src="https://github.com/user-attachments/assets/55df618a-f32d-4422-a822-97d0d49c901c" />
@@ -530,8 +530,28 @@ pipeline {
 </details>
 
 ### CI/CD 실행결과
-#### 실행 영상
+#### 시연 영상
 [![Video Label](http://img.youtube.com/vi/sXek1hzwkHU/0.jpg)](https://youtu.be/sXek1hzwkHU)
+
+#### 1. 코드 수정 후 Commit & Push
+<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 16 55" src="https://github.com/user-attachments/assets/b2ca2d25-3fbf-4fd7-9903-de94cd862582" />
+
+#### 2. 젠킨스 수행
+<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 20 15" src="https://github.com/user-attachments/assets/5a16d6e3-9b5d-4a8a-9876-3a614fc84d34" />
+<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 17 48" src="https://github.com/user-attachments/assets/226c1965-04ab-4b0c-9d0d-24b7d7d1166c" />
+
+
+#### 3. Manifests 반영 결과
+![Uploading 스크린샷 2026-05-08 오전 12.20.15.png…]()
+
+
+#### 4. ArgoCD 배포 확인
+<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 19 40" src="https://github.com/user-attachments/assets/32439f56-c87d-4ecc-8748-0d45e3b787f4" />
+
+
+#### 5. Docker Hub에 Push된 이미지 확인
+<img width="1021" height="577" alt="스크린샷 2026-05-08 오전 12 21 42" src="https://github.com/user-attachments/assets/060f07d9-c6e4-4fa4-9c78-0c986409820b" />
+
 
 ---
 ## 11. 🔎 회고
