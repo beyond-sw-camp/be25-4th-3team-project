@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: autosource-api
-        image: leetrue801/autosource-back:18
+        image: leetrue801/autosource-back:19
         resources:
           requests:
             memory: "521Mi"
