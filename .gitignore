@@ -25,8 +25,12 @@ replay_pid*
 
 # IDE
 .vscode/
+.DS_Store
 
 # Backend generated files
 back/.gradle/
 back/build/
 back/bin/
+
+# Kubernetes local/generated secrets
+k8s/Secret/

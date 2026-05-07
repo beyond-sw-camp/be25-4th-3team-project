@@ -31,7 +31,7 @@ pipeline {
                     docker build \
                       --build-arg VITE_API_BASE_URL=/api \
                       --build-arg VITE_OAUTH_BASE_URL= \
-                      -t ${FRONT_IMAGE}:${BUILD_NUMBER} ./front/frontend
+                      -t ${FRONT_IMAGE}:${BUILD_NUMBER} ./front
                 """
             }
         }
