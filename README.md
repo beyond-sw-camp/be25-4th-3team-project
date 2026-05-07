@@ -390,3 +390,4 @@ pipeline {
 <br>
 jenkins trgigger test
 jenkins trigger test1
+jenkins trigger test2
