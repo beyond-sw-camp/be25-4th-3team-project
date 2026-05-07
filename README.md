@@ -534,13 +534,13 @@ pipeline {
 #### 1. 코드 수정 후 Commit & Push
 <img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 16 55" src="https://github.com/user-attachments/assets/b2ca2d25-3fbf-4fd7-9903-de94cd862582" />
 
+
 #### 2. 젠킨스 수행
-<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 20 15" src="https://github.com/user-attachments/assets/5a16d6e3-9b5d-4a8a-9876-3a614fc84d34" />
 <img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 17 48" src="https://github.com/user-attachments/assets/226c1965-04ab-4b0c-9d0d-24b7d7d1166c" />
 
 
 #### 3. Manifests 반영 결과
-![Uploading 스크린샷 2026-05-08 오전 12.20.15.png…]()
+<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 20 15" src="https://github.com/user-attachments/assets/aa89f2d4-3eee-4582-b252-2b4d38233b2f" />
 
 
 #### 4. ArgoCD 배포 확인
@@ -550,8 +550,8 @@ pipeline {
 #### 5. Docker Hub에 Push된 이미지 확인
 <img width="1021" height="577" alt="스크린샷 2026-05-08 오전 12 21 42" src="https://github.com/user-attachments/assets/060f07d9-c6e4-4fa4-9c78-0c986409820b" />
 
-
 ---
+
 ## 11. 🔎 회고
 
 <details>
@@ -569,8 +569,4 @@ pipeline {
 </details>
 
 <br>
-jenkins trgigger test
-jenkins trigger test1
-jenkins trigger test2
-jenkins trigger test3
-jenkins trigger test5
+
