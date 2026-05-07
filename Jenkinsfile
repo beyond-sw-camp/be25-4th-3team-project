@@ -95,12 +95,12 @@ spec:
                         credentialsId: 'github-autosource-app',
                         keyFileVariable: 'GIT_SSH_KEY'
                     )]) {
-                        sh """
+                        sh '''
                             git config --global --add safe.directory "${WORKSPACE}"
-                            git remote set-url origin ${GIT_PUSH_URL}
+                            git remote set-url origin "${GIT_PUSH_URL}"
                             GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git fetch origin main
                             git rebase FETCH_HEAD
-                        """
+                        '''
                     }
                 }
             }
@@ -115,20 +115,25 @@ spec:
             }
             steps {
                 script {
+                    def nextImageTag = { image, manifestPath ->
+                        def imageLine = readFile(manifestPath)
+                            .readLines()
+                            .find { it.trim().startsWith("image: ${image}:") }
+
+                        if (!imageLine) {
+                            error "Cannot find image line for ${image} in ${manifestPath}"
+                        }
+
+                        def currentTag = imageLine.trim().tokenize(':')[-1]
+                        return String.valueOf(currentTag.toInteger() + 1)
+                    }
+
                     if (env.BUILD_BACK == 'true') {
-                        def currentBackTag = sh(
-                            script: "grep -E 'image: ${BACK_IMAGE}:' ${K8S_APP_DIR}/backend-deployment.yaml | head -n 1 | awk -F: '{print \$NF}' | tr -d ' \"'",
-                            returnStdout: true
-                        ).trim()
-                        env.BACK_IMAGE_TAG = String.valueOf(currentBackTag.toInteger() + 1)
+                        env.BACK_IMAGE_TAG = nextImageTag(env.BACK_IMAGE, "${env.K8S_APP_DIR}/backend-deployment.yaml")
                     }
 
                     if (env.BUILD_FRONT == 'true') {
-                        def currentFrontTag = sh(
-                            script: "grep -E 'image: ${FRONT_IMAGE}:' ${K8S_APP_DIR}/frontend-deployment.yaml | head -n 1 | awk -F: '{print \$NF}' | tr -d ' \"'",
-                            returnStdout: true
-                        ).trim()
-                        env.FRONT_IMAGE_TAG = String.valueOf(currentFrontTag.toInteger() + 1)
+                        env.FRONT_IMAGE_TAG = nextImageTag(env.FRONT_IMAGE, "${env.K8S_APP_DIR}/frontend-deployment.yaml")
                     }
 
                     echo "BACK_IMAGE_TAG: ${env.BACK_IMAGE_TAG ?: 'unchanged'}"
@@ -160,8 +165,8 @@ spec:
                         // 변경된 파일이 back/ 디렉토리에 있는 경우 백엔드 이미지를 빌드하고 푸시한다.
                         if (env.BUILD_BACK == 'true') {
                             sh """
-                                docker build --no-cache -t ${BACK_IMAGE}:${BACK_IMAGE_TAG} ./back
-                                docker push ${BACK_IMAGE}:${BACK_IMAGE_TAG}
+                                docker build --no-cache -t ${env.BACK_IMAGE}:${env.BACK_IMAGE_TAG} ./back
+                                docker push ${env.BACK_IMAGE}:${env.BACK_IMAGE_TAG}
                             """
                         }
 
@@ -171,8 +176,8 @@ spec:
                                 docker build --no-cache \
                                   --build-arg VITE_API_BASE_URL=/api \
                                   --build-arg VITE_OAUTH_BASE_URL= \
-                                  -t ${FRONT_IMAGE}:${FRONT_IMAGE_TAG} ./front
-                                docker push ${FRONT_IMAGE}:${FRONT_IMAGE_TAG}
+                                  -t ${env.FRONT_IMAGE}:${env.FRONT_IMAGE_TAG} ./front
+                                docker push ${env.FRONT_IMAGE}:${env.FRONT_IMAGE_TAG}
                             """
                         }
                     }
@@ -197,7 +202,7 @@ spec:
                         // 대상 파일 : k8s/autosource/backend-deployment.yaml
                         if (env.BUILD_BACK == 'true') {
                             sh """
-                                sed -i 's|image: ${BACK_IMAGE}:.*|image: ${BACK_IMAGE}:${BACK_IMAGE_TAG}|' ${K8S_APP_DIR}/backend-deployment.yaml
+                                sed -i 's|image: ${env.BACK_IMAGE}:.*|image: ${env.BACK_IMAGE}:${env.BACK_IMAGE_TAG}|' ${env.K8S_APP_DIR}/backend-deployment.yaml
                             """
                         }
 
@@ -205,7 +210,7 @@ spec:
                         // 대상 파일 : k8s/autosource/frontend-deployment.yaml
                         if (env.BUILD_FRONT == 'true') {
                             sh """
-                                sed -i 's|image: ${FRONT_IMAGE}:.*|image: ${FRONT_IMAGE}:${FRONT_IMAGE_TAG}|' ${K8S_APP_DIR}/frontend-deployment.yaml
+                                sed -i 's|image: ${env.FRONT_IMAGE}:.*|image: ${env.FRONT_IMAGE}:${env.FRONT_IMAGE_TAG}|' ${env.K8S_APP_DIR}/frontend-deployment.yaml
                             """
                         }
                     }
@@ -247,14 +252,14 @@ spec:
                             env.IMAGE_TAG_UPDATE_MESSAGE = updatedTargets.join(', ')
                         }
 
-                        sh """
-                            git add ${K8S_APP_DIR}/backend-deployment.yaml ${K8S_APP_DIR}/frontend-deployment.yaml
+                        sh '''
+                            git add "${K8S_APP_DIR}/backend-deployment.yaml" "${K8S_APP_DIR}/frontend-deployment.yaml"
                             git commit -m "chore: 이미지 태그 ${IMAGE_TAG_UPDATE_MESSAGE} 업데이트" || exit 0
-                            git remote set-url origin ${GIT_PUSH_URL}
+                            git remote set-url origin "${GIT_PUSH_URL}"
                             GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git fetch origin main
                             git rebase FETCH_HEAD
                             GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git push origin HEAD:main
-                        """
+                        '''
                     }
                 }
             }
