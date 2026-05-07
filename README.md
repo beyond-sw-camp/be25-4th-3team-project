@@ -253,105 +253,175 @@ graph TD
   
 ````
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: docker
+    image: docker:28.5.1-cli-alpine3.22
+    command: ["cat"]
+    tty: true
+    volumeMounts:
+    - name: docker-socket
+      mountPath: /var/run/docker.sock
+  - name: git
+    image: alpine/git:latest
+    command: ["cat"]
+    tty: true
+  volumes:
+  - name: docker-socket
+    hostPath:
+      path: /var/run/docker.sock
+      type: Socket
+'''
+        }
+    }
 
     options {
-        // 각 빌드는 중복 실행되지 않도록 하고, 로그에 시간 정보를 남긴다.
-        timestamps()
+        // 각 빌드는 중복 실행되지 않도록 한다.
         disableConcurrentBuilds()
     }
 
     environment {
-        // Docker 이미지 이름과 K8s 매니페스트 위치를 공통 변수로 관리한다.
         BACK_IMAGE = 'leetrue801/autosource-back'
         FRONT_IMAGE = 'leetrue801/autosource-vue'
-        K8S_DIR = 'k8s'
-        K8S_NAMESPACE = 'default'
+        DOCKER_CREDENTIALS_ID = 'autosource'
+        GIT_CREDENTIALS_ID = 'github-autosource-app'
+        GIT_PUSH_URL = 'git@github.com:beyond-sw-camp/be25-4th-AVG176-project.git'
+        K8S_APP_DIR = 'k8s/autosource'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // 현재 브랜치의 소스 코드를 가져온다.
                 checkout scm
             }
         }
 
-        stage('Build Images') {
+        stage('Detect Changes') {
             steps {
-                // 백엔드와 프론트엔드 이미지를 각각 만든다.
-                sh """
-                    docker build -t ${BACK_IMAGE}:${BUILD_NUMBER} ./back
-                    docker build \
-                      --build-arg VITE_API_BASE_URL=/api \
-                      --build-arg VITE_OAUTH_BASE_URL= \
-                      -t ${FRONT_IMAGE}:${BUILD_NUMBER} ./front
-                """
+                script {
+                    def changedFilesText = sh(
+                        script: '''
+                            if git rev-parse HEAD~1 >/dev/null 2>&1; then
+                              git diff --name-only HEAD~1 HEAD
+                            else
+                              git ls-files
+                            fi
+                        ''',
+                        returnStdout: true
+                    ).trim()
+
+                    def changedFiles = changedFilesText ? changedFilesText.readLines() : []
+                    env.BUILD_BACK = changedFiles.any { it.startsWith('back/') } ? 'true' : 'false'
+                    env.BUILD_FRONT = changedFiles.any { it.startsWith('front/') } ? 'true' : 'false'
+
+                    echo "BUILD_BACK: ${env.BUILD_BACK}"
+                    echo "BUILD_FRONT: ${env.BUILD_FRONT}"
+
+                    if (env.BUILD_BACK == 'false' && env.BUILD_FRONT == 'false') {
+                        echo 'No back/front changes detected. Skipping image build and GitOps update.'
+                    }
+                }
             }
         }
 
-        stage('Push Images') {
+        stage('Build & Push Images') {
+            when {
+                expression {
+                    return env.BUILD_BACK == 'true' || env.BUILD_FRONT == 'true'
+                }
+            }
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-credentials',
-                    usernameVariable: 'DOCKERHUB_USER',
-                    passwordVariable: 'DOCKERHUB_PASS'
-                )]) {
-                    // 빌드한 이미지를 Docker Hub에 올린다.
+                container('docker') {
+                    withCredentials([usernamePassword(
+                        credentialsId: DOCKER_CREDENTIALS_ID,
+                        usernameVariable: 'DOCKERHUB_USER',
+                        passwordVariable: 'DOCKERHUB_PASS'
+                    )]) {
+                        sh '''
+                            echo "${DOCKERHUB_PASS}" | docker login -u "${DOCKERHUB_USER}" --password-stdin
+                        '''
+                    }
+
+                    script {
+                        if (env.BUILD_BACK == 'true') {
+                            sh """
+                                docker build --no-cache -t ${BACK_IMAGE}:${BUILD_NUMBER} ./back
+                                docker push ${BACK_IMAGE}:${BUILD_NUMBER}
+                            """
+                        }
+
+                        if (env.BUILD_FRONT == 'true') {
+                            sh """
+                                docker build --no-cache \
+                                  --build-arg VITE_API_BASE_URL=/api \
+                                  --build-arg VITE_OAUTH_BASE_URL= \
+                                  -t ${FRONT_IMAGE}:${BUILD_NUMBER} ./front
+                                docker push ${FRONT_IMAGE}:${BUILD_NUMBER}
+                            """
+                        }
+                    }
+
+                    sh 'docker logout'
+                }
+            }
+        }
+
+        stage('Update ArgoCD Manifests') {
+            when {
+                expression {
+                    return env.BUILD_BACK == 'true' || env.BUILD_FRONT == 'true'
+                }
+            }
+            steps {
+                container('git') {
+                    script {
+                        if (env.BUILD_BACK == 'true') {
+                            sh """
+                                sed -i 's|image: ${BACK_IMAGE}:.*|image: ${BACK_IMAGE}:${BUILD_NUMBER}|' ${K8S_APP_DIR}/backend-deployment.yaml
+                            """
+                        }
+
+                        if (env.BUILD_FRONT == 'true') {
+                            sh """
+                                sed -i 's|image: ${FRONT_IMAGE}:.*|image: ${FRONT_IMAGE}:${BUILD_NUMBER}|' ${K8S_APP_DIR}/frontend-deployment.yaml
+                            """
+                        }
+                    }
+
                     sh """
-                        echo "${DOCKERHUB_PASS}" | docker login -u "${DOCKERHUB_USER}" --password-stdin
-                        docker push ${BACK_IMAGE}:${BUILD_NUMBER}
-                        docker push ${FRONT_IMAGE}:${BUILD_NUMBER}
-                        docker logout
+                        git config --global --add safe.directory "${WORKSPACE}"
+                        git config user.name "jenkins"
+                        git config user.email "jenkins@beyond.com"
+                        git status --short ${K8S_APP_DIR}
                     """
                 }
             }
         }
 
-        stage('Apply Secret') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'mariadb-root-password', variable: 'MARIADB_ROOT_PASSWORD'),
-                    string(credentialsId: 'mariadb-app-password', variable: 'MARIADB_PASSWORD')
-                ]) {
-                    // Jenkins Credentials에 있는 비밀값으로 MariaDB Secret을 생성한다.
-                    sh """
-                        kubectl create secret generic mariadb-secret \
-                          --namespace ${K8S_NAMESPACE} \
-                          --from-literal=MARIADB_ROOT_PASSWORD="${MARIADB_ROOT_PASSWORD}" \
-                          --from-literal=MARIADB_PASSWORD="${MARIADB_PASSWORD}" \
-                          --dry-run=client -o yaml | kubectl apply -f -
-                    """
+        stage('Commit & Push Manifests') {
+            when {
+                expression {
+                    return env.BUILD_BACK == 'true' || env.BUILD_FRONT == 'true'
                 }
             }
-        }
-
-        stage('Deploy to K8s') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                    // K8s에 공통 리소스와 디플로이먼트를 적용한 뒤 이미지 태그를 갱신한다.
-                    sh """
-                        mkdir -p ~/.kube
-                        cp "${KUBECONFIG_FILE}" ~/.kube/config
-
-                        kubectl apply -f ${K8S_DIR}/ConfigMap/global-config.yaml
-                        kubectl apply -f ${K8S_DIR}/Volume/mariadb-pv.yaml
-                        kubectl apply -f ${K8S_DIR}/Volume/mariadb-pvc.yaml
-                        kubectl apply -f ${K8S_DIR}/MariaDB/mariadb-deployment.yaml
-                        kubectl apply -f ${K8S_DIR}/MariaDB/mariadb-service.yaml
-                        kubectl apply -f ${K8S_DIR}/Backend/backend-deployment.yaml
-                        kubectl apply -f ${K8S_DIR}/Backend/backend-service.yaml
-                        kubectl apply -f ${K8S_DIR}/Frontend/frontend-deployment.yaml
-                        kubectl apply -f ${K8S_DIR}/Frontend/frontend-service.yaml
-                        kubectl apply -f ${K8S_DIR}/ingress.yaml
-
-                        kubectl set image deployment/autosource-api-deploy autosource-api=${BACK_IMAGE}:${BUILD_NUMBER}
-                        kubectl set image deployment/autosource-vue-deploy myapp=${FRONT_IMAGE}:${BUILD_NUMBER}
-
-                        kubectl rollout status deployment/autosource-api-deploy -n ${K8S_NAMESPACE}
-                        kubectl rollout status deployment/autosource-vue-deploy -n ${K8S_NAMESPACE}
-                        kubectl rollout status deployment/autosource-mariadb-deploy -n ${K8S_NAMESPACE}
-                    """
+                container('git') {
+                    withCredentials([sshUserPrivateKey(
+                        credentialsId: 'github-autosource-app',
+                        keyFileVariable: 'GIT_SSH_KEY'
+                    )]) {
+                        sh """
+                            git add ${K8S_APP_DIR}/backend-deployment.yaml ${K8S_APP_DIR}/frontend-deployment.yaml
+                            git commit -m "chore: 이미지 태그 ${BUILD_NUMBER} 업데이트" || exit 0
+                            git remote set-url origin ${GIT_PUSH_URL}
+                            GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" git push origin HEAD:main
+                        """
+                    }
                 }
             }
         }
