@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: leetrue801/autosource-vue:31
+        image: leetrue801/autosource-vue:32
         resources:
           requests:
             memory: "512Mi"
