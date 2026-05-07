@@ -124,7 +124,11 @@ spec:
                             error "Cannot find image line for ${image} in ${manifestPath}"
                         }
 
-                        def currentTag = imageLine.trim().tokenize(':')[-1]
+                        def currentTag = imageLine.trim().tokenize(':')[-1].trim()
+                        if (!(currentTag ==~ /\d+/)) {
+                            error "Image tag for ${image} must be numeric, but was '${currentTag}' in ${manifestPath}"
+                        }
+
                         return String.valueOf(currentTag.toInteger() + 1)
                     }
 
@@ -134,6 +138,14 @@ spec:
 
                     if (env.BUILD_FRONT == 'true') {
                         env.FRONT_IMAGE_TAG = nextImageTag(env.FRONT_IMAGE, "${env.K8S_APP_DIR}/frontend-deployment.yaml")
+                    }
+
+                    if (env.BUILD_BACK == 'true' && !env.BACK_IMAGE_TAG?.trim()) {
+                        error 'BACK_IMAGE_TAG is empty.'
+                    }
+
+                    if (env.BUILD_FRONT == 'true' && !env.FRONT_IMAGE_TAG?.trim()) {
+                        error 'FRONT_IMAGE_TAG is empty.'
                     }
 
                     echo "BACK_IMAGE_TAG: ${env.BACK_IMAGE_TAG ?: 'unchanged'}"
