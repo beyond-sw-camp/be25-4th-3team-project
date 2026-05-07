@@ -88,7 +88,7 @@ const handleLogout = async () => {
         <button class="flex h-[40px] items-center bg-transparent text-[15px] font-bold text-[#4b5563] hover:text-[#111827] transition-colors">서비스 소개</button>
         <button class="flex h-[40px] items-center bg-transparent text-[15px] font-bold text-[#4b5563] hover:text-[#111827] transition-colors">가격 안내</button>
         <button class="flex h-[40px] items-center bg-transparent text-[15px] font-bold text-[#4b5563] hover:text-[#111827] transition-colors">고객센터</button>
-        <button class="flex h-[40px] items-center bg-transparent text-[15px] font-bold text-[#4b5563] hover:text-[#111827] transition-colors">v.0.0.0</button>
+        <button class="flex h-[40px] items-center bg-transparent text-[15px] font-bold text-[#4b5563] hover:text-[#111827] transition-colors">v.0.0.1</button>
         
       </nav>
 
