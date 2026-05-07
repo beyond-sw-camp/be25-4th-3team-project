@@ -529,6 +529,12 @@ pipeline {
 
 </details>
 
+### CI/CD 실행결과
+#### 실행 영상
+[![Video Label](<img width="922" height="529" alt="스크린샷 2026-05-08 오전 12 07 29" src="https://github.com/user-attachments/assets/16de3acb-bbdc-4f8b-9b50-45cb7fce48ad" />
+)](https://www.youtube.com/watch?v=sXek1hzwkHU)
+
+---
 ## 11. 🔎 회고
 
 <details>
