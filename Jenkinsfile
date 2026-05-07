@@ -34,7 +34,7 @@ spec:
     environment {
         BACK_IMAGE = 'leetrue801/autosource-back'
         FRONT_IMAGE = 'leetrue801/autosource-vue'
-        DOCKER_CREDENTIALS_ID = 'dockerhub-access'
+        DOCKER_CREDENTIALS_ID = 'autosource'
         GIT_CREDENTIALS_ID = 'github-autosource-app'
         GIT_PUSH_URL = 'git@github.com:beyond-sw-camp/be25-4th-AVG176-project.git'
         K8S_APP_DIR = 'k8s/autosource'
@@ -84,7 +84,7 @@ spec:
             steps {
                 container('docker') {
                     withCredentials([usernamePassword(
-                        credentialsId: 'dockerhub-access',
+                        credentialsId: DOCKER_CREDENTIALS_ID,
                         usernameVariable: 'DOCKERHUB_USER',
                         passwordVariable: 'DOCKERHUB_PASS'
                     )]) {
