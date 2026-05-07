@@ -5,8 +5,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: oblanceolate-bertram-blanchi.ngrok-free.dev
-      http:
+    - http:
         paths:
           - path: /api
             pathType: Prefix
