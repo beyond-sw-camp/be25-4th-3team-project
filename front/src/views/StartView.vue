@@ -69,6 +69,9 @@ const imgSend = 'https://www.figma.com/api/mcp/asset/41d128b1-2af3-42da-82e6-c7d
       <p class="mt-3 text-lg font-medium text-sub sm:text-xl md:mt-4 md:text-[20px]">
         Sourcing Automation System
       </p>
+      <p class="mt-3 text-lg font-medium text-sub sm:text-xl md:mt-4 md:text-[20px]">
+        v.0.0.0
+      </p>
       <ul
         class="mt-10 flex max-w-6xl flex-col items-center gap-6 font-bold text-[#010101] sm:mt-14 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-4 md:gap-x-16 lg:mt-16 lg:gap-x-20 lg:text-[30px]"
       >
