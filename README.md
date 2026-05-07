@@ -1,5 +1,3 @@
-<img width="1332" height="839" alt="스크린샷 2026-05-08 오전 12 20 15" src="https://github.com/user-attachments/assets/c8ab802e-5afb-45a6-8357-8099ce0fb403" /><img width="2930" height="2022" alt="image" src="https://github.com/user-attachments/assets/17ba25b1-7b70-45f9-bc6c-d1084a259e0b" /># be25-2nd-avg(height)=174-project
-
 # 구매대행 업무 자동화 시스템
 <img width="1435" height="690" alt="스크린샷 2026-04-16 시간: 16 07 39" src="https://github.com/user-attachments/assets/55df618a-f32d-4422-a822-97d0d49c901c" />
 
