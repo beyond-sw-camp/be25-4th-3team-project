@@ -40,8 +40,6 @@ spec:
         GIT_CREDENTIALS_ID = 'github-autosource-app'
         GIT_PUSH_URL = 'git@github.com:beyond-sw-camp/be25-4th-AVG176-project.git'
         K8S_APP_DIR = 'k8s/autosource'
-        BACK_IMAGE_TAG = ''
-        FRONT_IMAGE_TAG = ''
     }
 
     stages {
@@ -115,29 +113,40 @@ spec:
             }
             steps {
                 script {
-                    def nextImageTag = { image, manifestPath ->
-                        def imageLine = readFile(manifestPath)
-                            .readLines()
-                            .find { it.trim().startsWith("image: ${image}:") }
-
-                        if (!imageLine) {
-                            error "Cannot find image line for ${image} in ${manifestPath}"
-                        }
-
-                        def currentTag = imageLine.trim().tokenize(':')[-1].trim()
-                        if (!(currentTag ==~ /\d+/)) {
-                            error "Image tag for ${image} must be numeric, but was '${currentTag}' in ${manifestPath}"
-                        }
-
-                        return String.valueOf(currentTag.toInteger() + 1)
-                    }
-
                     if (env.BUILD_BACK == 'true') {
-                        env.BACK_IMAGE_TAG = nextImageTag(env.BACK_IMAGE, "${env.K8S_APP_DIR}/backend-deployment.yaml")
+                        def backManifestPath = "${env.K8S_APP_DIR}/backend-deployment.yaml"
+                        def backImageLine = readFile(backManifestPath)
+                            .readLines()
+                            .find { line -> line.trim().startsWith("image: ${env.BACK_IMAGE}:") }
+
+                        if (!backImageLine) {
+                            error "Cannot find image line for ${env.BACK_IMAGE} in ${backManifestPath}"
+                        }
+
+                        def currentBackTag = backImageLine.trim().tokenize(':')[-1].trim()
+                        if (!(currentBackTag ==~ /\d+/)) {
+                            error "Image tag for ${env.BACK_IMAGE} must be numeric, but was '${currentBackTag}' in ${backManifestPath}"
+                        }
+
+                        env.BACK_IMAGE_TAG = "${currentBackTag.toInteger() + 1}"
                     }
 
                     if (env.BUILD_FRONT == 'true') {
-                        env.FRONT_IMAGE_TAG = nextImageTag(env.FRONT_IMAGE, "${env.K8S_APP_DIR}/frontend-deployment.yaml")
+                        def frontManifestPath = "${env.K8S_APP_DIR}/frontend-deployment.yaml"
+                        def frontImageLine = readFile(frontManifestPath)
+                            .readLines()
+                            .find { line -> line.trim().startsWith("image: ${env.FRONT_IMAGE}:") }
+
+                        if (!frontImageLine) {
+                            error "Cannot find image line for ${env.FRONT_IMAGE} in ${frontManifestPath}"
+                        }
+
+                        def currentFrontTag = frontImageLine.trim().tokenize(':')[-1].trim()
+                        if (!(currentFrontTag ==~ /\d+/)) {
+                            error "Image tag for ${env.FRONT_IMAGE} must be numeric, but was '${currentFrontTag}' in ${frontManifestPath}"
+                        }
+
+                        env.FRONT_IMAGE_TAG = "${currentFrontTag.toInteger() + 1}"
                     }
 
                     if (env.BUILD_BACK == 'true' && !env.BACK_IMAGE_TAG?.trim()) {
